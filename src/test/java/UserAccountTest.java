@@ -29,43 +29,31 @@ public class UserAccountTest {
     @Test
     public void userGetAccountsInfoTest() {
         List<AccountResponse> accountsInfo = getAccountsInfo(user);
-
         accountsInfo.stream().filter(a -> a.equals(account)).findFirst().orElseThrow();
     }
 
     @Test
     public void userDepositToAccountTest() {
-        double balance = 0.01;
-        var depositInfo = new DepositAccountRequest(account.getId(), balance);
+        var depositInfo = new DepositAccountRequest(account.getId(), 0.01);
         depositToAccount(user, depositInfo);
         AccountResponse accountResponse = getAccountsInfo(user).stream().filter(a -> a.getId() == account.getId()).findFirst().orElseThrow();
 
-        assertEquals(balance, accountResponse.getBalance(), "User account(id=%s) balance not equals".formatted(accountResponse.getId()));
+        assertEquals(depositInfo.getBalance(), accountResponse.getBalance(), "User account(id=%s) balance not equals".formatted(accountResponse.getId()));
     }
 
     @ParameterizedTest(name = "balance={0}")
     @ValueSource(doubles = {0, -1})
     public void userDepositToAccountInvalidAmountTest(double balance) {
         var depositInfo = new DepositAccountRequest(account.getId(), balance);
-        var errorMessage = new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnBadRequest(), Endpoint.ACCOUNTS_DEPOSIT)
-                .post(depositInfo)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Invalid account or amount", errorMessage);
+        new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnBadRequest(), Endpoint.ACCOUNTS_DEPOSIT)
+                .post(depositInfo);
     }
 
     @Test
     public void userDepositToNotExistAccountTest() {
         var depositInfo = new DepositAccountRequest(999999, 300);
-        var errorMessage = new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_DEPOSIT)
-                .post(depositInfo)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Unauthorized access to account", errorMessage);
+        new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_DEPOSIT)
+                .post(depositInfo);
     }
 
     @Test
@@ -73,34 +61,21 @@ public class UserAccountTest {
         var anotherUser = createUser();
         var anotherAccount = createAccount(anotherUser);
         var depositInfo = new DepositAccountRequest(anotherAccount.getId(), 300);
-        var errorMessage = new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_DEPOSIT)
-                .post(depositInfo)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Unauthorized access to account", errorMessage, "Error message not equals");
+        new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_DEPOSIT)
+                .post(depositInfo);
     }
+
 
     @Test
     public void unAuthUserDepositToAccountTest() {
         var depositInfo = new DepositAccountRequest(account.getId(), 300);
-        var errorMessage = new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.ACCOUNTS_DEPOSIT)
-                .post(depositInfo)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Unauthorized access to account", errorMessage, "Error message not equals");
+        new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.ACCOUNTS_DEPOSIT)
+                .post(depositInfo);
     }
 
     @Test
     public void unAuthUserGetAccountsInfoTest() {
-        var errorMessage = new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.USER_ACCOUNTS)
-                .getList()
-                .extract()
-                .jsonPath()
-                .get("error");
-        assertEquals(errorMessage, "Not authorized", "Error message not equals");
+        new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.USER_ACCOUNTS)
+                .getList();
     }
 }

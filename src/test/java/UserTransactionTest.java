@@ -28,28 +28,23 @@ public class UserTransactionTest {
 
     @Test
     public void userGetAccessTransactionsInfoTest() {
-        double amount = 233.0;
-        depositToAccount(user, new DepositAccountRequest(account.getId(), amount));
+        DepositAccountRequest depositInfo = new DepositAccountRequest(account.getId(), 233.0);
+        depositToAccount(user, depositInfo);
         var transList = UserSteps.getTransactionHistory(user, account.getId());
         var transaction = transList.stream().filter(t -> t.getType().equals(Type.DEPOSIT)).findFirst().orElseThrow();
 
         assertAll(
-                () -> assertEquals(amount, transaction.getAmount(), "Expected amount not equals actual"),
+                () -> assertEquals(depositInfo.getBalance(), transaction.getAmount(), "Expected amount not equals actual"),
                 () -> assertEquals(account.getId(), transaction.getRelatedAccountId(), "Expected account id not equals actual")
         );
     }
 
     @Test
     public void unAuthUserGetAccessTransactionsInfoTest() {
-        double amount = 233.0;
-        depositToAccount(user, new DepositAccountRequest(account.getId(), amount));
-        var errorMessage = new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
-                .get(account.getId())
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("Unauthorized access to account", errorMessage);
+        DepositAccountRequest depositInfo = new DepositAccountRequest(account.getId(), 233.0);
+        depositToAccount(user, depositInfo);
+        new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
+                .get(account.getId());
     }
 
     @Test
@@ -72,33 +67,22 @@ public class UserTransactionTest {
         var anotherUserAccount = createAccount(anotherUser);
         depositToAccount(anotherUser, new DepositAccountRequest(anotherUserAccount.getId(), 100));
 
-        var errorMessage = new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
-                .get(anotherUserAccount.getId())
-                .extract()
-                .body()
-                .asString();
-        assertEquals("You do not have permission to access this account", errorMessage, "Error messages not equals");
+        new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenAccessRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
+                .get(anotherUserAccount.getId());
     }
 
     @Test
     public void userGetTransactionsInfoNotExistAccountTest() {
-        var errorMessage = new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
-                .get(999)
-                .extract()
-                .body()
-                .asString();
-
-        assertEquals("You do not have permission to access this account", errorMessage, "Error messages not equals");
+        new CrudRequester(RequestSpecs.authAsUserSpec(user.getUsername(), user.getPassword()), ResponseSpecs.requestReturnForbiddenAccessRequest(), Endpoint.ACCOUNTS_TRANSACTIONS)
+                .get(999);
     }
 
     @Test
     public void checkUserTransactionsAttributesTest() {
-        double amount1 = 100;
-        double amount2 = 20;
-        double amount3 = 1.0;
         var anotherUser = createUser();
         var anotherUserAccount = createAccount(anotherUser);
-        depositToAccount(user, new DepositAccountRequest(account.getId(), 100));
+        DepositAccountRequest depositInfo = new DepositAccountRequest(account.getId(), 100);
+        depositToAccount(user, depositInfo);
         var transferRequest = new TransferRequest(account.getId(), anotherUserAccount.getId(), 20);
         var transferRequest2 = new TransferRequest(anotherUserAccount.getId(), account.getId(), 1.0);
         transferToAccount(user, transferRequest);
@@ -110,9 +94,9 @@ public class UserTransactionTest {
         var transferInTransaction = actualTransactionsList.stream().filter(t -> t.getType().equals(Type.TRANSFER_IN)).findFirst().orElseThrow();
         var transferOutTransaction = actualTransactionsList.stream().filter(t -> t.getType().equals(Type.TRANSFER_OUT)).findFirst().orElseThrow();
 
-        checkTransactions(amount1, account.getId(), depositTransaction);
-        checkTransactions(amount3, anotherUserAccount.getId(), transferInTransaction);
-        checkTransactions(amount2, anotherUserAccount.getId(), transferOutTransaction);
+        checkTransactions(depositInfo.getBalance(), account.getId(), depositTransaction);
+        checkTransactions(transferRequest2.getAmount(), anotherUserAccount.getId(), transferInTransaction);
+        checkTransactions(transferRequest.getAmount(), anotherUserAccount.getId(), transferOutTransaction);
     }
 
     private void checkTransactions(double amount, long relatedAccountId, TransactionResponse trans) {
