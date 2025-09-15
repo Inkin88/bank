@@ -13,7 +13,6 @@ import specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static requests.skelethon.steps.AdminSteps.createUser;
 import static requests.skelethon.steps.UserSteps.login;
@@ -46,14 +45,11 @@ public class UserAuthTest {
     @ParameterizedTest(name = "username={0}, password={1}")
     @MethodSource("testUsers")
     public void userLoginWithWrongCredTest(String userName, String userPassword) {
-        var errorMessage = new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.LOGIN)
+        new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnBadCredentialsRequest(), Endpoint.LOGIN)
                 .post(LoginUserRequest.builder()
                         .username(userName)
                         .password(userPassword)
-                        .build())
-                .extract().jsonPath().get("error");
-
-        assertEquals("Invalid username or password", errorMessage, "Error message not equals");
+                        .build());
     }
 
     private static Stream<Arguments> testUsers() {

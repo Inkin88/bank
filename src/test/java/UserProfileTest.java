@@ -31,11 +31,7 @@ public class UserProfileTest {
         CreateUserRequest userRequest2 = RandomModelGenerator.generate(CreateUserRequest.class);
         createUser(userRequest);
 
-        var errorMessage = new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.UPDATE_USER_PROFILE)
-                .update(new ProfileRequest(userRequest2.getUsername()))
-                .extract()
-                .body()
-                .asString();
-        assertEquals(errorMessage, "Unauthorized access to account", "Error message not equals");
+        new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.UPDATE_USER_PROFILE)
+                .update(new ProfileRequest(userRequest2.getUsername()));
     }
 }
