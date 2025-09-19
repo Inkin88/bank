@@ -15,6 +15,8 @@ import java.util.Map;
 @ExtendWith(BrowserMatchExtension.class)
 public class BaseUiTest {
 
+    protected static final String NONAME = "Noname";
+
     @BeforeAll
     public static void setupSelenoid() {
         Configuration.remote = Config.getProperty("uiRemote");

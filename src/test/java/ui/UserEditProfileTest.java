@@ -31,7 +31,7 @@ public class UserEditProfileTest extends BaseUiTest {
                 .setName(expectedName)
                 .getUserName();
         assertAll(
-                () -> assertEquals("Noname", actualName),
+                () -> assertEquals(NONAME, actualName),
                 () -> assertNull(SessionStorage.getSteps().getUserProfile().getName()));
     }
 }
