@@ -55,24 +55,31 @@ public class UserTransferTest extends BaseUiTest {
     }
 
     @ParameterizedTest
-    @MethodSource("incorrectTransfer")
     @UserSession()
-    public void userDoesIncorrectTransferTest(Transfer transfer) {
+    @MethodSource("incorrectTransfer")
+    public void userDoesIncorrectTransferTest(String toAcc, boolean isConfirm, String message) {
         AccountResponse createdAccount = createAccount(SessionStorage.getUser());
+        if (toAcc == null) {
+            toAcc = createAccount(SessionStorage.getUser()).getAccountNumber();
+        }
         AccountResponse accountResponse = SessionStorage.getSteps().depositToAccount(createdAccount.getId());
+        Transfer transfer = Transfer.builder()
+                .fromACC(createdAccount.getAccountNumber())
+                .toAcc(toAcc)
+                .amount(Double.toString(accountResponse.getBalance()))
+                .isConfirm(isConfirm)
+                .message(message)
+                .build();
         new UserDashboardPage().open()
                 .transferMoney()
                 .makeTransfer(transfer);
-        assertEquals(accountResponse.getBalance(), SessionStorage.getSteps().getAccountInfo(createdAccount.getId()).getBalance());
+        assertEquals(accountResponse.getBalance(), SessionStorage.getSteps().getAccountInfo(accountResponse.getId()).getBalance());
     }
 
     private static Stream<Arguments> incorrectTransfer() {
-        AccountResponse createdAccount = createAccount(SessionStorage.getUser());
-        AccountResponse createdAccount2 = createAccount(SessionStorage.getUser());
-        AccountResponse accountResponse = SessionStorage.getSteps().depositToAccount(createdAccount.getId());
         return Stream.of(
-                Arguments.of(new Transfer(createdAccount.getAccountNumber(), "ACC99", Double.toString(accountResponse.getBalance()), true, NO_USER_FOUND.getMessage())),
-                Arguments.of(new Transfer(createdAccount.getAccountNumber(), createdAccount2.getAccountNumber(), Double.toString(accountResponse.getBalance()), false, FILL_ALL_FIELDS.getMessage()))
+                Arguments.of("ACC20000", true, NO_USER_FOUND.getMessage()),
+                Arguments.of(null, false, FILL_ALL_FIELDS.getMessage())
         );
     }
 
