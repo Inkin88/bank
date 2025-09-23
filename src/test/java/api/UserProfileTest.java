@@ -14,7 +14,7 @@ import static api.skelethon.steps.AdminSteps.createUser;
 import static api.skelethon.steps.UserSteps.getUserProfile;
 import static api.skelethon.steps.UserSteps.updateUserProfile;
 
-public class UserProfileTest {
+public class UserProfileTest extends BaseTest {
 
     @Test
     public void changeUserNameTest() {

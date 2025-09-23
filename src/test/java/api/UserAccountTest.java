@@ -18,7 +18,7 @@ import static api.skelethon.steps.UserSteps.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static api.skelethon.steps.AdminSteps.createUser;
 
-public class UserAccountTest {
+public class UserAccountTest extends BaseTest {
     private CreateUserRequest user;
     private AccountResponse account;
 

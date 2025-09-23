@@ -28,6 +28,7 @@ public class TransferPage extends BasePage<TransferPage> {
     }
 
     public TransferPage makeTransfer(Transfer transfer) {
+        Selenide.sleep(2000);
         if (!transfer.getFromACC().isEmpty()) {
             accountSelect.selectByContainingText(transfer.getFromACC());
         }

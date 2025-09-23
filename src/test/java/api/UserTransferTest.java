@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static api.skelethon.steps.AdminSteps.createUser;
 import static api.utils.ObjectFieldAssertions.assertFieldsEqual;
 
-public class UserTransferTest {
+public class UserTransferTest extends BaseTest {
     private CreateUserRequest user;
     private AccountResponse account;
 
