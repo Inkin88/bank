@@ -1,13 +1,13 @@
 package api.skelethon.requesters;
 
-import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import api.models.BaseModel;
 import api.skelethon.Endpoint;
 import api.skelethon.HttpRequest;
 import api.skelethon.interfaces.CrudEndPointInterface;
 import api.skelethon.interfaces.ListEndPointInterface;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 
 import static io.restassured.RestAssured.given;
 

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserDepositTest extends BaseUiTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"0.01", "4999.99", "5000"})
+    @ValueSource(strings = {"0.01", "4999.99", "5000.00"})
     @UserSession
     public void userDepositToHisAccountTest(String amount) {
         AccountResponse createdAccount = createAccount(SessionStorage.getUser());

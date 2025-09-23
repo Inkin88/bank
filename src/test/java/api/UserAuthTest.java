@@ -20,7 +20,7 @@ import static api.skelethon.steps.AdminSteps.createUser;
 import static api.skelethon.steps.UserSteps.login;
 import static api.utils.ObjectFieldAssertions.assertFieldsEqual;
 
-public class UserAuthTest {
+public class UserAuthTest extends BaseTest {
 
     @Test
     public void userLoginTest() {

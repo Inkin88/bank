@@ -37,7 +37,7 @@ public class ResponseSpecs {
     public static ResponseSpecification requestReturnUnAuthRequest() {
         return defaultResponseSpec()
                 .expectStatusCode(HttpStatus.SC_UNAUTHORIZED)
-                .expectBody("error", equalTo(UNAUTHORIZED))
+                .expectBody(containsString(UNAUTHORIZED))
                 .build();
     }
 

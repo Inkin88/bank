@@ -19,7 +19,7 @@ import static api.skelethon.steps.AdminSteps.createUser;
 import static api.skelethon.steps.UserSteps.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class UserTransactionTest {
+public class UserTransactionTest extends BaseTest {
 
     private CreateUserRequest user;
     private AccountResponse account;
