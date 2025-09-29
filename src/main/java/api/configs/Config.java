@@ -1,9 +1,11 @@
 package api.configs;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
+@Slf4j
 public class Config {
     private final static Config INSTANCE = new Config();
     private final Properties properties = new Properties();
@@ -20,6 +22,19 @@ public class Config {
     }
 
     public static String getProperty(String key) {
-        return INSTANCE.properties.getProperty(key);
+        log.info(key);
+        String systemValue = System.getProperty(key);
+        log.info(systemValue);
+        if (systemValue != null) {
+            return systemValue;
+        }
+        String systemEnv = System.getenv(key.toUpperCase().replace(".", "_"));
+        log.info(systemEnv);
+        if (systemEnv != null) {
+            return systemEnv;
+        }
+        String propertiesValue = INSTANCE.properties.getProperty(key);
+        log.info(propertiesValue);
+        return propertiesValue;
     }
 }
