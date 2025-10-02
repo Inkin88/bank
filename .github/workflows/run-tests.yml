@@ -13,7 +13,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'correto'
+          distribution: 'corretto'
           java-version: '17'
 
       - name: Cache Maven repository
@@ -25,7 +25,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set up services
-        run: bash infra/docker_compose/restart-docker.sh
+        run: cd infra/docker_compose && bash restart-docker.sh && ../..
 
       - name: Run tests
         run: ./mvn clean test
