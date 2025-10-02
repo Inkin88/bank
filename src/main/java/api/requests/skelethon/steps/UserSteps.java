@@ -1,8 +1,8 @@
-package api.skelethon.steps;
+package api.requests.skelethon.steps;
 
 import api.models.*;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.ValidatedCrudRequester;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.ValidatedCrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 import lombok.AllArgsConstructor;
