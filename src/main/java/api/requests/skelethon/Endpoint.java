@@ -1,4 +1,4 @@
-package api.skelethon;
+package api.requests.skelethon;
 
 import api.models.*;
 import lombok.AllArgsConstructor;

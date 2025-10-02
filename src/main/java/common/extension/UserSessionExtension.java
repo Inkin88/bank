@@ -1,7 +1,7 @@
 package common.extension;
 
 import api.models.CreateUserRequest;
-import api.skelethon.steps.AdminSteps;
+import api.requests.skelethon.steps.AdminSteps;
 import common.annotation.UserSession;
 import common.storage.SessionStorage;
 import org.junit.jupiter.api.extension.BeforeEachCallback;

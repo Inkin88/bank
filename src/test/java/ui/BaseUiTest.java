@@ -2,10 +2,12 @@ package ui;
 
 import api.configs.Config;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import common.extension.AdminSessionExtension;
 import common.extension.BrowserMatchExtension;
 import common.extension.TimingExtension;
 import common.extension.UserSessionExtension;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -25,7 +27,8 @@ public class BaseUiTest {
         Configuration.baseUrl = Config.getProperty("uiBaseUrl");
         Configuration.browser = Config.getProperty("browser");
         Configuration.browserSize = Config.getProperty("browser.size");
-        Configuration.headless = true;
+        Configuration.headless = false;
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
 
         Configuration.browserCapabilities.setCapability("selenoid:options", Map.of("enableVNC", true, "enableLog", true));
     }

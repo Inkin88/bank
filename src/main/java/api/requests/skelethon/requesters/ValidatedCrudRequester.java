@@ -1,4 +1,4 @@
-package api.skelethon.requesters;
+package api.requests.skelethon.requesters;
 
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.restassured.common.mapper.TypeRef;
@@ -6,10 +6,10 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.Getter;
 import api.models.BaseModel;
-import api.skelethon.Endpoint;
-import api.skelethon.HttpRequest;
-import api.skelethon.interfaces.CrudEndPointInterface;
-import api.skelethon.interfaces.ListEndPointInterface;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.HttpRequest;
+import api.requests.skelethon.interfaces.CrudEndPointInterface;
+import api.requests.skelethon.interfaces.ListEndPointInterface;
 
 import java.util.List;
 

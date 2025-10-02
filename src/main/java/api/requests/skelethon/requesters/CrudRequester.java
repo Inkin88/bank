@@ -1,10 +1,12 @@
-package api.skelethon.requesters;
+package api.requests.skelethon.requesters;
 
 import api.models.BaseModel;
-import api.skelethon.Endpoint;
-import api.skelethon.HttpRequest;
-import api.skelethon.interfaces.CrudEndPointInterface;
-import api.skelethon.interfaces.ListEndPointInterface;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.HttpRequest;
+import api.requests.skelethon.interfaces.CrudEndPointInterface;
+import api.requests.skelethon.interfaces.ListEndPointInterface;
+import common.helpers.StepLogger;
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -17,18 +19,22 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("POST запрос на {endpoint} с телом {model}")
     public ValidatableResponse post(BaseModel model) {
-        var body = model == null ? "" : model;
-        return given()
-                .spec(requestSpecification)
-                .body(body)
-                .post(endpoint.getUrl())
-                .then()
-                .assertThat()
-                .spec(responseSpecification);
+        return StepLogger.log("POST запрос на %s".formatted(endpoint.getUrl()), () -> {
+            var body = model == null ? "" : model;
+            return given()
+                    .spec(requestSpecification)
+                    .body(body)
+                    .post(endpoint.getUrl())
+                    .then()
+                    .assertThat()
+                    .spec(responseSpecification);
+        });
     }
 
     @Override
+    @Step("GET запрос на {endpoint} с id {id}")
     public ValidatableResponse get(long id) {
         return given()
                 .spec(requestSpecification)
@@ -39,6 +45,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("GET запрос на {endpoint}")
     public ValidatableResponse get() {
         return given()
                 .spec(requestSpecification)
@@ -49,6 +56,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("GET запрос на {endpoint}")
     public ValidatableResponse getList() {
         return given()
                 .spec(requestSpecification)
@@ -59,6 +67,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("GET запрос на {endpoint} с id {id}")
     public ValidatableResponse getList(long id) {
         return given()
                 .spec(requestSpecification)
@@ -69,6 +78,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("PUT запрос на {endpoint} с телом {model}")
     public ValidatableResponse update(BaseModel model) {
         var body = model == null ? "" : model;
         return given()
@@ -81,6 +91,7 @@ public class CrudRequester extends HttpRequest implements CrudEndPointInterface,
     }
 
     @Override
+    @Step("DELETE запрос на {endpoint} с id {id}")
     public Object delete(long id) {
         return null;
     }

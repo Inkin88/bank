@@ -1,7 +1,7 @@
 package common.storage;
 
 import api.models.CreateUserRequest;
-import api.skelethon.steps.UserSteps;
+import api.requests.skelethon.steps.UserSteps;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
