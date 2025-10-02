@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     paths:
-      - 'src/**'   # запуск только при изменениях в папке src
+      - 'src/**'
   workflow_dispatch:
 
 jobs:
@@ -23,10 +23,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD)
           docker build -t gckjwdz9/nbank_tests:$COMMIT_HASH .
 
       - name: Push Docker image to Docker Hub
         env:
           DOCKERHUB_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        run: bash infra/docker_compose/push-to-docker.sh $COMMIT_HASH
+        run: bash push-tests.sh $COMMIT_HASH

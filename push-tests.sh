@@ -1,13 +1,19 @@
 #!/bin/bash
 
+# Локальное имя образа
 LOCAL_IMAGE_NAME="nbank_tests"
 
+# Docker Hub username
 DOCKERHUB_USERNAME="gckjwdz9"
 
+# Тег: берём первый аргумент, иначе latest
 TAG=${1:-latest}
 
-# Docker Hub токен (создан в аккаунте Docker Hub)
-DOCKERHUB_TOKEN="${DOCKERHUB_TOKEN:-dckr_pat_kIajJvX6SIwnmDFwscaqSt9dVbg}"
+# Docker Hub токен передаётся через переменную окружения DOCKERHUB_TOKEN
+if [ -z "$DOCKERHUB_TOKEN" ]; then
+  echo "ERROR: DOCKERHUB_TOKEN is not set!"
+  exit 1
+fi
 
 echo "Логинимся в Docker Hub..."
 echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
