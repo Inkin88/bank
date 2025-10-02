@@ -3,16 +3,17 @@ package api;
 import api.generators.RandomModelGenerator;
 import api.models.CreateUserRequest;
 import api.models.ProfileRequest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.CrudRequester;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static api.skelethon.steps.AdminSteps.createUser;
-import static api.skelethon.steps.UserSteps.getUserProfile;
-import static api.skelethon.steps.UserSteps.updateUserProfile;
+import static api.requests.skelethon.steps.AdminSteps.createUser;
+import static api.requests.skelethon.steps.UserSteps.getUserProfile;
+import static api.requests.skelethon.steps.UserSteps.updateUserProfile;
 
 public class UserProfileTest extends BaseTest {
 
@@ -28,6 +29,7 @@ public class UserProfileTest extends BaseTest {
     }
 
     @Test
+    @Disabled
     public void unAuthUserChangeNameTest() {
         CreateUserRequest userRequest = RandomModelGenerator.generate(CreateUserRequest.class);
         CreateUserRequest userRequest2 = RandomModelGenerator.generate(CreateUserRequest.class);

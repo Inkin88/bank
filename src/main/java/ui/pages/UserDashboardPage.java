@@ -2,6 +2,7 @@ package ui.pages;
 
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
+import common.helpers.StepLogger;
 import lombok.Getter;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -19,7 +20,10 @@ public class UserDashboardPage extends BasePage<UserDashboardPage> {
     }
 
     public DepositPage depositMoney() {
-        depositButton.click();
+        StepLogger.log("Переходим в раздел депозит", () -> {
+          //  AllureAttachments.screenshot("Меню дашборда");
+            depositButton.click();
+        });
         return new DepositPage();
     }
 

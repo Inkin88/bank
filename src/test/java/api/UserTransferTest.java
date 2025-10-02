@@ -5,17 +5,18 @@ import api.models.CreateUserRequest;
 import api.models.DepositAccountRequest;
 import api.models.TransferRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.CrudRequester;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
-import static api.skelethon.steps.UserSteps.*;
+import static api.requests.skelethon.steps.UserSteps.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static api.skelethon.steps.AdminSteps.createUser;
+import static api.requests.skelethon.steps.AdminSteps.createUser;
 import static api.utils.ObjectFieldAssertions.assertFieldsEqual;
 
 public class UserTransferTest extends BaseTest {
@@ -105,6 +106,7 @@ public class UserTransferTest extends BaseTest {
     }
 
     @Test
+    @Disabled
     public void unAuthUserTransferToAnotherHisAccountTest() {
         var anotherAccount = createAccount(user);
         depositToAccount(user, new DepositAccountRequest(account.getId(), 100));

@@ -89,6 +89,11 @@
             <artifactId>allure-rest-assured</artifactId>
             <version>2.29.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>2.29.0</version>
+        </dependency>
 
         <dependency>
             <groupId>io.qameta.allure</groupId>
@@ -180,8 +185,15 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.15.2</version>
+                <configuration>
+                    <resultsDirectory>allure-results</resultsDirectory>
+                </configuration>
+            </plugin>
         </plugins>
-
     </build>
-
 </project>

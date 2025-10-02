@@ -17,7 +17,7 @@ import ui.pages.UserDashboardPage;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static api.skelethon.steps.UserSteps.createAccount;
+import static api.requests.skelethon.steps.UserSteps.createAccount;
 import static io.qameta.allure.Allure.step;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ui.pages.BankAlert.*;

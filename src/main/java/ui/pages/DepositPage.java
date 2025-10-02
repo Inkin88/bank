@@ -1,6 +1,10 @@
 package ui.pages;
 
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
+import common.helpers.StepLogger;
 import ui.elements.AccountElement;
 import ui.elements.Select;
 
@@ -19,28 +23,38 @@ public class DepositPage extends BasePage<DepositPage> {
     }
 
     public UserDashboardPage makeDeposit(String accountNumber, String amount) {
-        accountSelect.selectByContainingText(accountNumber);
-        amountInput.setValue(amount);
-        depositButton.click();
-        checkAlertAndAccept("✅ Successfully deposited $%s to account %s!".formatted(amount, accountNumber));
+        StepLogger.log("Делаем депозит на %s на сумму %s".formatted(accountNumber, amount), () -> {
+            accountSelect.selectByContainingText(accountNumber);
+            amountInput.setValue(amount);
+          //  AllureAttachments.screenshot("Скриншот перед депозитом");
+            depositButton.click();
+            checkAlertAndAccept("✅ Successfully deposited $%s to account %s!".formatted(amount, accountNumber));
+        });
         return new UserDashboardPage();
     }
 
     public DepositPage makeIncorrectDeposit(String accountNumber, String amount, String message) {
-        if (!accountNumber.isEmpty()) {
-            accountSelect.selectByContainingText(accountNumber);
-        }
-        if (!accountNumber.isEmpty()) {
-            amountInput.setValue(amount);
-        }
-        depositButton.click();
-        checkAlertAndAccept(message);
+
+        StepLogger.log("Делаем депозит на %s на сумму %s".formatted(accountNumber, amount), () -> {
+            if (!accountNumber.isEmpty()) {
+                accountSelect.selectByContainingText(accountNumber);
+            }
+            if (!accountNumber.isEmpty()) {
+                amountInput.setValue(amount);
+            }
+       //     AllureAttachments.screenshot("Скриншот перед депозитом");
+            depositButton.click();
+            checkAlertAndAccept(message);
+        });
         return this;
     }
 
     public DepositPage checkAccountBalance(String expectedBalance, String accountNumber) {
-        Selenide.refresh();
-        assertEquals(expectedBalance, getAccount(accountNumber).getBalance());
+        StepLogger.log("Проверяем баланс(%s) аккаунта %s".formatted(expectedBalance, accountNumber), () -> {
+            Selenide.refresh();
+      //      AllureAttachments.screenshot("Скриншот баланса аккаунта");
+            assertEquals(expectedBalance, getAccount(accountNumber).getBalance());
+        });
         return this;
     }
 
