@@ -13,7 +13,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'correto'
+          distribution: 'corretto'
           java-version: '17'
 
       - name: Cache Maven repository
