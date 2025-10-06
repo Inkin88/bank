@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import common.helpers.StepLogger;
+import common.utils.AllureAttachments;
 import ui.elements.AccountElement;
 import ui.elements.Select;
 
@@ -26,7 +27,7 @@ public class DepositPage extends BasePage<DepositPage> {
         StepLogger.log("Делаем депозит на %s на сумму %s".formatted(accountNumber, amount), () -> {
             accountSelect.selectByContainingText(accountNumber);
             amountInput.setValue(amount);
-          //  AllureAttachments.screenshot("Скриншот перед депозитом");
+            AllureAttachments.screenshot("Скриншот перед депозитом");
             depositButton.click();
             checkAlertAndAccept("✅ Successfully deposited $%s to account %s!".formatted(amount, accountNumber));
         });
@@ -42,7 +43,7 @@ public class DepositPage extends BasePage<DepositPage> {
             if (!accountNumber.isEmpty()) {
                 amountInput.setValue(amount);
             }
-       //     AllureAttachments.screenshot("Скриншот перед депозитом");
+            AllureAttachments.screenshot("Скриншот перед депозитом");
             depositButton.click();
             checkAlertAndAccept(message);
         });
@@ -52,7 +53,7 @@ public class DepositPage extends BasePage<DepositPage> {
     public DepositPage checkAccountBalance(String expectedBalance, String accountNumber) {
         StepLogger.log("Проверяем баланс(%s) аккаунта %s".formatted(expectedBalance, accountNumber), () -> {
             Selenide.refresh();
-      //      AllureAttachments.screenshot("Скриншот баланса аккаунта");
+            AllureAttachments.screenshot("Скриншот баланса аккаунта");
             assertEquals(expectedBalance, getAccount(accountNumber).getBalance());
         });
         return this;
