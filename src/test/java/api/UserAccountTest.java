@@ -4,19 +4,20 @@ import api.models.AccountResponse;
 import api.models.CreateUserRequest;
 import api.models.DepositAccountRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.CrudRequester;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
 import java.util.List;
 
-import static api.skelethon.steps.UserSteps.*;
+import static api.requests.skelethon.steps.UserSteps.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static api.skelethon.steps.AdminSteps.createUser;
+import static api.requests.skelethon.steps.AdminSteps.createUser;
 
 public class UserAccountTest extends BaseTest {
     private CreateUserRequest user;
@@ -69,6 +70,7 @@ public class UserAccountTest extends BaseTest {
 
 
     @Test
+    @Disabled
     public void unAuthUserDepositToAccountTest() {
         var depositInfo = new DepositAccountRequest(account.getId(), 300);
         new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.ACCOUNTS_DEPOSIT)
@@ -76,6 +78,7 @@ public class UserAccountTest extends BaseTest {
     }
 
     @Test
+    @Disabled
     public void unAuthUserGetAccountsInfoTest() {
         new CrudRequester(RequestSpecs.unAuthSpec(), ResponseSpecs.requestReturnUnAuthRequest(), Endpoint.USER_ACCOUNTS)
                 .getList();

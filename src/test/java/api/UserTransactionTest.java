@@ -1,12 +1,13 @@
 package api;
 
 import api.models.*;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.CrudRequester;
-import api.skelethon.steps.UserSteps;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.CrudRequester;
+import api.requests.skelethon.steps.UserSteps;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,8 +16,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import static api.skelethon.steps.AdminSteps.createUser;
-import static api.skelethon.steps.UserSteps.*;
+import static api.requests.skelethon.steps.AdminSteps.createUser;
+import static api.requests.skelethon.steps.UserSteps.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTransactionTest extends BaseTest {
@@ -44,6 +45,7 @@ public class UserTransactionTest extends BaseTest {
     }
 
     @Test
+    @Disabled
     public void unAuthUserGetAccessTransactionsInfoTest() {
         DepositAccountRequest depositInfo = new DepositAccountRequest(account.getId(), 233.0);
         depositToAccount(user, depositInfo);

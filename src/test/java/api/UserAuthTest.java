@@ -8,16 +8,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mindrot.jbcrypt.BCrypt;
-import api.skelethon.Endpoint;
-import api.skelethon.requesters.CrudRequester;
+import api.requests.skelethon.Endpoint;
+import api.requests.skelethon.requesters.CrudRequester;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static api.skelethon.steps.AdminSteps.createUser;
-import static api.skelethon.steps.UserSteps.login;
+import static api.requests.skelethon.steps.AdminSteps.createUser;
+import static api.requests.skelethon.steps.UserSteps.login;
 import static api.utils.ObjectFieldAssertions.assertFieldsEqual;
 
 public class UserAuthTest extends BaseTest {

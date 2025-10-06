@@ -1,4 +1,4 @@
-package api.skelethon.interfaces;
+package api.requests.skelethon.interfaces;
 
 import api.models.BaseModel;
 

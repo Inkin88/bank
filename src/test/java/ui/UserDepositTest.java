@@ -15,8 +15,8 @@ import ui.pages.UserDashboardPage;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static api.skelethon.steps.UserSteps.createAccount;
-import static api.skelethon.steps.UserSteps.getAccountInfo;
+import static api.requests.skelethon.steps.UserSteps.createAccount;
+import static api.requests.skelethon.steps.UserSteps.getAccountInfo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserDepositTest extends BaseUiTest {
